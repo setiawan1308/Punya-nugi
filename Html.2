@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>`substitute(Filename('', 'Page Title'), '^.', '\u&', '')`</title>
+        
+    </head>
+    <body>
+        <h2>Raja Keren Register</h2>
+        <form id="registerForm">
+
+            <input required type="text" name="" id="nama" value="" placeholder="Nama lengkap"/><br>
+            <input required type="email" name="" id="email" value="" placeholder="Email"/><br>
+            <input required type="password" name="" id="password" value="" placeholder="Password"/><br>
+            <input required type="number" name="" id="nomor hp" value="" placeholder="Nomor Hp"/><br>
+            <input required type="date" name="" id="date" value="" placeholder="Tanggal Lahir"/><br>
+            <button type="submit" style="color: red;">Submit</button>
+        </form>
+        <table id="datatable" style="border: 1px solid black;">
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>Email</th>
+                    <th>Tanggal Lahir</th>
+                </tr>
+            </thead>
+        </table>
+        
+    </body>
+</html>
+
+<script type="text/javascript">
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+        e.preventDefault();// mencegah refresh halaman
+
+        // Ambil data dari form
+        const nama = document.getElementById('nama').value;
+        const email = document.getElementById('email').value;
+        const nomorHp = document.getElementById('nomor hp').value;
+        const tanggalLahir = document.getElementById('date').value;
+
+        // Buat objek data
+        const data = {
+            nama: nama,
+            email: email,
+            nomorHp: nomorHp,
+            tanggalLahir: tanggalLahir
+        };
+
+        // Tambahkan ke tabel HTML
+        const table = document.getElementById('datatable');
+        const row = table.insertRow(-1);
+        row.insertCell(0).textContent = nama;
+        row.insertCell(1).textContent = email;
+        row.insertCell(2).textContent = tanggalLahir;
+        row.insertCell(3).textContent = '-';
+
+        // Simpan data ke file JSON
+        const fileData = JSON.stringify(data, null, 2);
+        const blob = new Blob([fileData], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+
+        // Buat dan klik link download
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `data-${nama}.json`;
+        a.click();
+
+        // Bersihkan form
+        document.getElementById('registerForm').reset();
+    });
+</script>
